@@ -64,7 +64,7 @@ namespace AutoCADCommands.EVS
                 Entity ent = (Entity)idOne.Open(OpenMode.ForWrite);
                 using (ent)
                 {
-                    Interaction.Write($"ТИП ВЫБРАННОГО ПРИМИТИВА -  {ent.GetType()}");
+                    Interaction.Write($"ТИП ВЫБРАННОГО ПРИМИТИВА -  {ent.GetType().Name} \n");
                     if (ent.GetType() == typeof(MText))
                     {
                         idOne.QOpenForWrite<MText>((mt =>
