@@ -5,13 +5,13 @@ using System.Windows;
 using Dreambuild.AutoCAD;
 using System;
 using System.Diagnostics.Eventing.Reader;
-[assembly: CommandClass(typeof(AutoCADCommands.EVS.CopyMtext))]
+//[assembly: CommandClass(typeof(AutoCADCommands.EVS.CopyMtext))]
 namespace AutoCADCommands.EVS
 {
     public class CopyMtext
     {
         [CommandMethod("COPYMTEXTEVS", CommandFlags.UsePickSet)]
-        public static void COPYMTEXTEVS()
+        public static void COPYMTEXTEVS2()
         {
 
             //var ids = Interaction.GetSelection("\nSelect MText", "MTEXT, TEXT");
@@ -21,11 +21,7 @@ namespace AutoCADCommands.EVS
             {
                 Interaction.Write($"ТИП ВЫБРАННОГО ПРИМИТИВА -  {ent.GetType()}");
 
-                //if (ent == null)
 
-                //{
-                //    return;
-                //}
 
                 if (ent.GetType() == typeof(MText))
                 {
@@ -48,16 +44,83 @@ namespace AutoCADCommands.EVS
                               Interaction.Write($"В буфере: {dt.TextString}");
                               return true;
 
-                               //var mt = NoDraw.MText(dt.TextString, dt.Height, dt.Position, dt.Rotation, false);
-                               //mt.Layer = dt.Layer;
-                               //return mt;
-                           });
+                              //var mt = NoDraw.MText(dt.TextString, dt.Height, dt.Position, dt.Rotation, false);
+                              //mt.Layer = dt.Layer;
+                              //return mt;
+                          });
                 }
 
             }
+        }
+
+        [CommandMethod("PASTEMTEXTEVS", CommandFlags.UsePickSet)]
+        public static void PASTEMTEXTEVS()
+        {
+
+
+            var ids = Interaction.GetSelection("\nSelect MText or TEXT\n", "*TEXT,MTEXT");
+            foreach (var idOne in ids)
+            {
+                Entity ent = (Entity)idOne.Open(OpenMode.ForWrite);
+                using (ent)
+                {
+                    Interaction.Write($"ТИП ВЫБРАННОГО ПРИМИТИВА -  {ent.GetType()}");
+                    if (ent.GetType() == typeof(MText))
+                    {
+                        idOne.QOpenForWrite<MText>((mt =>
+                                {
+                           
+                                mt.Contents = Clipboard.GetText();
+                                }
+                                ));
+                        //var mts = ids.QOpenForRead<MText>().Select(mt =>
+                        //{
+                        //    var clip = Clipboard.GetText();
+                        //    var mtt = NoDraw.MText(clip, mt.TextHeight, mt.Location, mt.Attachment, mt.Rotation, false/*, mt.Width*/  );
+                        //    Interaction.Write($"ВСТАВКА: {mt.Text}");
+                        //    return mtt;
+                        //}).ToArray();
+                        //ids.QForEach(mt => mt.Erase());
+                        //mts.AddToCurrentSpace();
+                    }
+
+
+                    if (ent.GetType() == typeof(DBText))
+                    {
+
+
+                        ids.QOpenForWrite<DBText>((dt =>
+
+
+                                {
+                                    foreach (var dtt in dt)
+                                        dtt.TextString = Clipboard.GetText();
+                                }
+                            ));
+
+
+                        //var dts = ids.QOpenForRead<DBText>().Select(dt =>
+                        //{
+                        //    var clip = Clipboard.GetText();
+                        //    var dtt = NoDraw.Text(clip, dt.Height, dt.Position, dt.Rotation, false);
+                        //    Interaction.Write($"ВСТАВКА: {dt.TextString}");
+                        //    return dtt;
+                        //}).ToArray();
+
+                        //ids.QForEach(dt => dt.Erase());
+                        //dts.AddToCurrentSpace();
+
+                    }
+
+                }
+            }
+
 
 
         }
+
+
+
 
 
     }

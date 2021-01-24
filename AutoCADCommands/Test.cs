@@ -403,7 +403,7 @@ namespace Dreambuild.AutoCAD
             var ids = Interaction.GetSelection("\nSelect Text", "TEXT");
             var dts = ids.QOpenForRead<DBText>().Select(dt =>
             {
-                var mt = NoDraw.MText(dt.TextString, dt.Height, dt.Position, dt.Rotation, false);
+                var mt = NoDraw.MText(dt.TextString, dt.Height, dt.Position, dt.Rotation, false );
                 mt.Layer = dt.Layer;
                 return mt;
             }).ToArray();

@@ -1285,6 +1285,30 @@ namespace Dreambuild.AutoCAD
             return mText;
         }
 
+
+        public static MText MText(string text, double height, Point3d position,AttachmentPoint attach, double rotation = 0, bool centerAligned = false, double width = 0 )
+        {
+            var mText = new MText
+            {
+                Contents = text,
+                TextHeight = height,
+                Location = position,
+                Rotation = rotation,
+                Width = width,
+                Attachment = attach
+            };
+
+            if (centerAligned)
+            {
+                mText.Move(mText.Location - mText.GetCenter());
+            }
+
+            return mText;
+        }
+
+
+
+
         /// <summary>
         /// Creates a point.
         /// </summary>
