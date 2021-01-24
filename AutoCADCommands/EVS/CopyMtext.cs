@@ -69,8 +69,7 @@ namespace AutoCADCommands.EVS
                     {
                         idOne.QOpenForWrite<MText>((mt =>
                                 {
-                           
-                                mt.Contents = Clipboard.GetText();
+                                    mt.Contents = Clipboard.GetText();
                                 }
                                 ));
                         //var mts = ids.QOpenForRead<MText>().Select(mt =>
@@ -84,21 +83,13 @@ namespace AutoCADCommands.EVS
                         //mts.AddToCurrentSpace();
                     }
 
-
                     if (ent.GetType() == typeof(DBText))
                     {
-
-
-                        ids.QOpenForWrite<DBText>((dt =>
-
-
+                        idOne.QOpenForWrite<DBText>((dt =>
                                 {
-                                    foreach (var dtt in dt)
-                                        dtt.TextString = Clipboard.GetText();
+                                    dt.TextString = Clipboard.GetText();
                                 }
                             ));
-
-
                         //var dts = ids.QOpenForRead<DBText>().Select(dt =>
                         //{
                         //    var clip = Clipboard.GetText();
@@ -114,15 +105,7 @@ namespace AutoCADCommands.EVS
 
                 }
             }
-
-
-
         }
-
-
-
-
-
     }
 }
 
